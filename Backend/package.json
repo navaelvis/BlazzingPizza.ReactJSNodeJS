@@ -1,0 +1,26 @@
+{
+  "name": "blazzingpizza.reactjsnodejs.backend",
+  "version": "0.1.0",
+  "main": "server.js",
+  "dependencies": {
+    "define-property": "^2.0.2",
+    "express": "^4.17.1",
+    "fragment-cache": "^0.2.1",
+    "knex": "^0.20.13",
+    "make-iterator": "^1.0.1",
+    "map-cache": "^0.2.2",
+    "minimist": "^1.2.5",
+    "mixin-deep": "^1.3.2",
+    "mkdirp": "^1.0.3",
+    "mysql2": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Elvis L. Nava",
+  "license": "ISC",
+  "description": ""
+}
