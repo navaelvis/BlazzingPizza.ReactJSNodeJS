@@ -24,6 +24,16 @@ orders.get('/orders', async (req, res) => {
     await getData();
     var result = [];
 
+    ordersList = ordersList.sort((a, b) => {
+        if (a.createdTime > b.createdTime)
+            return -1;
+        else if (a.createdTime < b.createdTime)
+            return 1;
+        else {
+            return 0;
+        }
+    });
+
     for (var i = 0; i < ordersList.length; i++) {
         var deliveryAddress = getDeliveryAddress(ordersList[i].deliveryAddressId);
 
@@ -34,6 +44,7 @@ orders.get('/orders', async (req, res) => {
         result.push(order);
     }
 
+    console.log('/orders - GET method');
     res.send(result);
 });
 
@@ -42,6 +53,7 @@ orders.get('/orders/:orderId', async (req, res) => {
 
     await getDataForOrderId(orderId);
 
+    console.log('/orders/:orderId - GET method');
     if (ordersList == undefined || ordersList.length == 0)
         res.send('null order');
     else {
@@ -63,6 +75,7 @@ orders.post('/orders', async (req, res) => {
         });
     });
 
+    console.log('/orders - POST method');
     res.send(true);
 });
 
