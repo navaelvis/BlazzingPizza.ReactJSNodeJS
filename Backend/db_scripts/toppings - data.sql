@@ -1,6 +1,21 @@
-CREATE TABLE `PizzaStore`.`toppings` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `price` DECIMAL(18,2) NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE);
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (1, N'Cubierta de langosta', CAST(1225.50 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (2, N'Caviar de esturión', CAST(1933.25 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (3, N'Corazones de alcachofa', CAST(64.60 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (4, N'Pimientos picantes', CAST(79.80 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (5, N'Albahaca', CAST(39.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (6, N'Filete', CAST(161.50 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (7, N'Albóndigas de venado', CAST(47.50 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (8, N'Tomates frescos', CAST(39.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (9, N'Salchicha de pato', CAST(60.80 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (10, N'Pimiento', CAST(19.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (11, N'Champiñones', CAST(19.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (12, N'Cebolla', CAST(19.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (13, N'Pollo búfalo', CAST(95.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (14, N'Bollos recién horneados', CAST(85.50 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (15, N'Té y bollos', CAST(95.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (16, N'Tocino de ternera', CAST(56.80 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (17, N'Tocino de jabalí', CAST(56.80 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (18, N'Tocino de pavo', CAST(56.80 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (19, N'Queso extra', CAST(47.50 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (20, N'Pepperoni', CAST(19.00 AS Decimal(18, 2)));
+INSERT INTO `pizzastore`.`toppings` (Id, Name, Price) VALUES (21, N'Queso azul', CAST(47.50 AS Decimal(18, 2)));

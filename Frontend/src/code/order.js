@@ -50,6 +50,11 @@ const Order = {
         var resp = await Axios.post('http://localhost:1337/orders', order);
 
         return resp;
+    },
+
+    GetFormattedDate: function (createdTime) {
+        var dateTimeString = createdTime.split(/[-T:.Z]/);
+        return new Date(dateTimeString[0], dateTimeString[1] - 1, dateTimeString[2], dateTimeString[3], dateTimeString[4], dateTimeString[5], dateTimeString[6]);
     }
 }
 

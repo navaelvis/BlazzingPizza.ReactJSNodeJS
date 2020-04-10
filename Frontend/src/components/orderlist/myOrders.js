@@ -41,15 +41,13 @@ class MyOrders extends React.Component {
                                 return null;
                             });
 
-                            var orderDetailLink = "/myorders/" + item.order.id;
+                            var orderDetailLink = "/myOrders/" + item.order.orderId;
                             var optionsForDataFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                            var dateTimeString = item.order.createdTime.split(/[-T:.Z]/);
-                            var date = new Date(dateTimeString[0], dateTimeString[1] - 1, dateTimeString[2], dateTimeString[3], dateTimeString[4], dateTimeString[5], dateTimeString[6]);
-                            
+
                             return (
                                 <div key={i} className="list-group-item" >
                                     <div className="col">
-                                        <h5>{date.toLocaleString("es-VE", optionsForDataFormat)}</h5>
+                                        <h5>{Order.GetFormattedDate(item.order.createdTime).toLocaleString("es-VE", optionsForDataFormat)}</h5>
                                         Pizzas:
                                         <strong> {item.order.pizzas.length} </strong>
                                         Precio total:
