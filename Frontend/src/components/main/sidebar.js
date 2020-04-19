@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../css/site.css';
 import Order from '../../code/order';
+import OrderContext from '../../contextAPI/context';
 
 class SideBar extends React.Component {
     constructor(props) {
@@ -18,14 +18,15 @@ class SideBar extends React.Component {
         return {pizzas: props.Pizzas };
     }
 
+    static contextType = OrderContext;
+
     render () {
         let cart;
-        let total = 0;
         let placeOrderButton;
         if(this.state.pizzas.length === 0) {
             placeOrderButton = <a href="/#" className="btn btn-warning" >Ordenar ></a>
         } else {
-            placeOrderButton = <a href="/#" className="btn btn-warning" onClick={this.placeOrder} >Ordenar ></a>
+            placeOrderButton = <a href="/#" className="btn btn-warning" onClick={this.props.Checkout} >Ordenar ></a>
         }
         
         if(this.state.pizzas.length > 0) {
@@ -33,7 +34,6 @@ class SideBar extends React.Component {
                 <div className="order-contents">
                     <h2>Tu orden</h2>
                     {this.state.pizzas.map((pizza, i) => {
-                        total += Order.GetTotalPrice(pizza);
                         return (
                             <div key={i} className="cart-item">
                                 <a href='/#' className="delete-item" title={pizza.id} onClick={this.onRemovePizza} >x</a>
@@ -46,7 +46,7 @@ class SideBar extends React.Component {
                                     }
                                 </ul>
                                 <div className="item-price">
-                                    {Order.GetFormattedPizzaPrice(pizza)}
+                                    {Order.GetFormattedPizzaTotalPrice(pizza)}
                                 </div>
                             </div>
                         );
@@ -66,7 +66,7 @@ class SideBar extends React.Component {
                 {cart}
                 <div className="order-total" >
                     Total:
-                    <span className="total-price">{(this.state.pizzas.length > 0 ? Order.GetTotalFormated(total) : '')}</span>
+                    <span className="total-price">{(this.state.pizzas.length > 0 ? Order.GetFormattedOrderTotalPrice(this.state.pizzas) : '')}</span>
                     {placeOrderButton}
                 </div>
             </div>
@@ -78,7 +78,7 @@ class SideBar extends React.Component {
     }
 
     placeOrder(event) {
-        this.props.PlaceOrder();
+        this.context.pizzasChanged(this.state.pizzas);
     }
 }
 

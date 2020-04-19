@@ -4,19 +4,18 @@ import Main from './components/main/main';
 import MyOrders from './components/orderlist/myOrders';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import OrderDetail from './components/orderlist/orderDetail';
-import Checkout from './components/main/checkout';
 
 function App() {
   return (
     <React.Fragment>
-        <Router>
-          <TopBar />
-          <div className="content" >
-            <Route path="/" component={Main} exact ></Route>
-            <Route path="/myOrders" component={MyOrders} exact ></Route>
-            <Route path="/myOrders/:orderId" component={OrderDetail} ></Route>
-          </div>
-        </Router>
+      <Router>
+        <TopBar />
+        <div className="content" >
+          <Route path="/" component={Main} exact ></Route>
+          <Route path="/myOrders" component={MyOrders} exact ></Route>
+          <Route path="/myOrders/:orderId" component={OrderDetail} ></Route>
+        </div>
+      </Router>
     </React.Fragment>
   );
 }

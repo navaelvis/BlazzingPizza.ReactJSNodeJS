@@ -3,6 +3,7 @@ import Axios from 'axios';
 import '../../css/site.css';
 import '../../css/bootstrap.min.css';
 import Order from '../../code/order';
+import Utilities from '../../code/utilities';
 
 class MyOrders extends React.Component {
     constructor() {
@@ -37,7 +38,7 @@ class MyOrders extends React.Component {
                         this.state.orders.map((item, i) => {
                             var orderTotal = 0;
                             item.order.pizzas.map((pizza) => {
-                                orderTotal += Order.GetTotalPrice(Order.BuildPizza(pizza.special, pizza.size, pizza.toppings));
+                                orderTotal += Order.GetPizzaTotalPrice(Order.BuildPizza(pizza.special, pizza.size, pizza.toppings));
                                 return null;
                             });
 
@@ -51,7 +52,7 @@ class MyOrders extends React.Component {
                                         Pizzas:
                                         <strong> {item.order.pizzas.length} </strong>
                                         Precio total:
-                                        <strong> ${Order.GetTotalFormated(orderTotal)}</strong>
+                                        <strong> ${Utilities.ApllyCurrencyFormat(orderTotal)}</strong>
                                     </div>
                                     <div className="col" >
                                         Estatus: <strong>Aqu&iacute; ir&aacute; el estado de la orden</strong>

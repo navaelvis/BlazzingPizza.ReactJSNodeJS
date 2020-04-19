@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import Utilities from './utilities';
 
 const Order = {
     BuildPizza: function (special, size, toppings) {
@@ -18,18 +19,32 @@ const Order = {
     },
 
     GetFormattedPizzaPrice: function (pizza) {
-        return this.GetTotalFormated((pizza.size / pizza.defaultSize) * pizza.special.basePrice);
+        return Utilities.ApllyCurrencyFormat((pizza.size / pizza.defaultSize) * pizza.special.basePrice);
     },
 
-    GetTotalPrice: function (pizza) {
-        return (pizza.size / pizza.defaultSize) * pizza.special.basePrice;
+    GetFormattedPizzaTotalPrice: function (pizza) {
+        return Utilities.ApllyCurrencyFormat(this.GetPizzaTotalPrice(pizza));
     },
 
-    GetTotalFormated: function (total) {
-        return parseFloat(total).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    GetFormattedOrderTotalPrice: function (pizzas) {
+        var totalOrder = 0;
+        pizzas.map((pizza) => {
+            totalOrder += this.GetPizzaTotalPrice(pizza);
+            return null;
+        })
+        return Utilities.ApllyCurrencyFormat(totalOrder);
     },
 
-    async PlaceOrder(userId, pizzas) {
+    GetPizzaTotalPrice: function (pizza) {
+        var totalToppings = 0;
+        pizza.toppings.map((topping) => {
+            totalToppings += topping.price;
+            return null;
+        });
+        return ((pizza.size / pizza.defaultSize) * pizza.special.basePrice) + totalToppings;
+    },
+
+    async PlaceOrder(userId, pizzas, address) {
         var order = {
             userId: userId,
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
@@ -44,12 +59,13 @@ const Order = {
                     })
                 };
                 return item;
-            })
+            }),
+            address: address
         };
 
         var resp = await Axios.post('http://localhost:1337/orders', order);
-
-        return resp;
+        
+        return resp.data;
     },
 
     GetFormattedDate: function (createdTime) {

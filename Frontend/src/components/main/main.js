@@ -1,9 +1,11 @@
 import React from 'react';
+import Axios from 'axios';
 import '../../css/site.css';
 import SpecialsContainer from './specialsContainer';
 import Dialog from '../templated/dialog';
 import SideBar from './sidebar';
 import Order from '../../code/order';
+import Checkout from './checkout';
 
 class Main extends React.Component {
     constructor() {
@@ -14,12 +16,24 @@ class Main extends React.Component {
         this.OnConfirm = this.OnConfirm.bind(this);
         this.OnRemovePizza = this.OnRemovePizza.bind(this);
         this.PlaceOrder = this.PlaceOrder.bind(this);
+        this.Checkout = this.Checkout.bind(this);
 
         this.state = {
             special: null,
             pizzas: [],
-            showingConfigurePizza: false
+            toppings: [],
+            showingConfigurePizza: false,
+            checkout: false
         }
+    }
+
+    componentDidMount() {
+        Axios.get('http://localhost:1337/toppings')
+            .then((response) => {
+                this.setState({
+                    toppings: response.data
+                })
+            });
     }
 
     render() {
@@ -27,22 +41,30 @@ class Main extends React.Component {
         let dialog;
         
         if(this.state.pizzas.length > 0)
-            sideBar = <SideBar Pizzas={this.state.pizzas} OnRemovePizza={this.OnRemovePizza} PlaceOrder={this.PlaceOrder} />;
+            sideBar = <SideBar Pizzas={this.state.pizzas} OnRemovePizza={this.OnRemovePizza} PlaceOrder={this.PlaceOrder} Checkout={this.Checkout} />;
         else
             sideBar = <SideBar Pizzas={[]} />;
 
         if(this.state.showingConfigurePizza)
             dialog = <Dialog Special={this.state.special} OnCancel={this.OnCancel} OnConfirm={this.OnConfirm} />;
 
-        return (
-            <React.Fragment>
-                <div className="main">
-                    <SpecialsContainer onSpecialSelected={this.ShowConfigureDialog} />
-                </div>
-                {sideBar}
-                {dialog}
-            </React.Fragment>
-        );
+        if(this.state.checkout) {
+            return (
+                <React.Fragment>
+                    <Checkout Pizzas={this.state.pizzas} Toppings={this.state.toppings} />
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    <div className="main">
+                        <SpecialsContainer onSpecialSelected={this.ShowConfigureDialog} />
+                    </div>
+                    {sideBar}
+                    {dialog}
+                </React.Fragment>
+            );
+        }
     }
 
     ShowConfigureDialog(special) {
@@ -92,6 +114,15 @@ class Main extends React.Component {
         } else {
             console.log(resp);
         }
+    }
+
+    Checkout() {
+        this.setState({
+            special: null,
+            pizzas: this.state.pizzas,
+            showingConfigurePizza: false,
+            checkout: true
+        });
     }
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
-import '../../css/site.css';
 import '../../css/bootstrap.min.css';
 import Order from '../../code/order';
+import Utilities from '../../code/utilities';
 
 class Dialog extends React.Component {
     constructor(props) {
@@ -54,11 +54,11 @@ class Dialog extends React.Component {
         else
         {
             toppings =
-                <select className="custom-select" defaultValue="-1" >
+                <select className="custom-select" defaultValue="-1" onChange={this.toppingSelected} >
                     <option value="-1" disabled >(selecciona)</option>
                     {
                         this.state.toppings.map((topping, i) => {
-                            return <option key={i} value={topping.id + '|' + topping.name + '|' + topping.price} onClick={this.toppingSelected} >{topping.name} - (${topping.price})</option>;
+                            return <option key={i} value={topping.id + '|' + topping.name + '|' + topping.price} >{topping.name} - (${topping.price})</option>;
                         })
                     }
                 </select>;
@@ -69,7 +69,7 @@ class Dialog extends React.Component {
                 <div key={i} className="topping">
                     {topping.name + ' '}
                     <span className="topping-price">
-                        {Order.GetTotalFormated(topping.price)}
+                        {Utilities.ApllyCurrencyFormat(topping.price)}
                     </span>
                     <button value={topping.id} type="button" className="delete-topping" onClick={this.removeTopping} >
                         x
@@ -111,7 +111,7 @@ class Dialog extends React.Component {
                         <span className="mr-center">
                             Precio:
                             <span className="price">
-                                {Order.GetFormattedPizzaPrice(this.state.pizza)}
+                                {Order.GetFormattedPizzaTotalPrice(this.state.pizza)}
                             </span>
                         </span>
                         <button className="btn btn-success ml-auto" onClick={this.onConfirm} >Ordenar ></button>
@@ -138,15 +138,15 @@ class Dialog extends React.Component {
     }
 
     toppingSelected(event) {
-        var exist = this.state.pizza.toppings.find((topping) => topping.id === event.target.value.split('|')[0] );
+        var exist = this.state.pizza.toppings.find((topping) => topping.id === parseInt(event.target.value.split('|')[0]));
         if(exist !== undefined)
             return;
 
         let topping = event.target.value;
         let item = {
-            id: topping.split('|')[0],
+            id: parseInt(topping.split('|')[0]),
             name: topping.split('|')[1],
-            price: topping.split('|')[2]
+            price: parseFloat(topping.split('|')[2])
         }
 
         let piz = this.state.pizza;

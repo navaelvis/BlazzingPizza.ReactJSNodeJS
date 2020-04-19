@@ -16,7 +16,7 @@ var allowCrossDomainOpotions = function(req, res, next) {
         next();
     }
 };
-    
+
 orders.use(bodyParser.json());
 orders.use(allowCrossDomainOpotions);
 
@@ -66,17 +66,38 @@ orders.get('/orders/:orderId', async (req, res) => {
 
 orders.post('/orders', async (req, res) => {
     var data = req.body;
-    var orderId = await db.knex.insert({ userId: data.userId, createdTime: data.date }).into('orders');
+    var addressId = await db.knex.insert({
+        name: data.address.name,
+        line1: data.address.line1,
+        line2: data.address.line2,
+        city: data.address.city,
+        region: data.address.region,
+        postalCode: data.address.postalCode
+    }).into('address');
+
+    var orderId = await db.knex.insert({ 
+        userId: data.userId,
+        createdTime: data.date,
+        deliveryAddressId: addressId
+    }).into('orders');
     
     data.pizzas.forEach(async (pizza) => {
-        var pizzaId = await db.knex.insert({ orderId: orderId, specialId: pizza.specialId, size: pizza.size }).into('pizzas');
+        var pizzaId = await db.knex.insert({ 
+            orderId: orderId, 
+            specialId: pizza.specialId, 
+            size: pizza.size 
+        }).into('pizzas');
+
         pizza.toppings.forEach(async (topping) => {
-            await db.knex.insert({ toppingId: topping.toppingId, pizzaId: pizzaId }).into('pizzatopping');
+            await db.knex.insert({ 
+                toppingId: topping.toppingId, 
+                pizzaId: pizzaId 
+            }).into('pizzatopping');
         });
     });
 
     console.log('/orders - POST method');
-    res.send(true);
+    res.send(String(orderId));
 });
 
 async function getData() {
@@ -125,7 +146,7 @@ function getPizzas(orderId) {
                 special = {
                     id: specialsList[l].id,
                     name: specialsList[l].name,
-                    basePrice: specialsList[l].basePrice,
+                    basePrice: parseFloat(specialsList[l].basePrice),
                     description: specialsList[l].description,
                     imageUrl: specialsList[l].imageUrl
                 }
@@ -138,12 +159,8 @@ function getPizzas(orderId) {
                 for (var n = 0; n < toppingsList.length; n++) {
                     if (pizzaToppingList[m].toppingId == toppingsList[n].id) {
                         var item = {
-                            topping: {
-                                id: toppingsList[n].id,
-                                name: toppingsList[n].id.name,
-                                price: toppingsList[n].price
-                            },
-                            toppingId: toppingsList[n].id,
+                            id: toppingsList[n].id,
+                            price: parseFloat(toppingsList[n].price),
                             pizzaId: pizzaToppingList[m].pizzaId
                         }
                         toppings.push(item);

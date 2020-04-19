@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../css/site.css';
 import '../../css/bootstrap.min.css';
 import Order from '../../code/order';
 import Axios from 'axios';
@@ -11,8 +10,7 @@ class OrderDetail extends React.Component {
         super();
         
         this.state = {
-            order: null,
-            toppings: []
+            order: null
         }
     }
 
@@ -23,13 +21,6 @@ class OrderDetail extends React.Component {
                     order: response.data.order
                 })
             });
-
-        Axios.get('http://localhost:1337/toppings')
-            .then((response) => {
-                this.setState({
-                    toppings: response.data
-                })
-            });
     }
 
     render() {
@@ -38,7 +29,6 @@ class OrderDetail extends React.Component {
         
         if(this.state.order !== null) {
             formattedDate = Order.GetFormattedDate(this.state.order.createdTime).toLocaleString("es-VE", optionsForDataFormat);
-            
             return (
                 <React.Fragment>
                     <div className="main" >
@@ -48,7 +38,7 @@ class OrderDetail extends React.Component {
                                 <p className="ml-auto mb-0">Estatus: <strong>@OrderWithStatus.StatusText</strong></p>
                             </div>
                             <div className="track-order-body">
-                                <OrderReview Pizzas={this.state.order.pizzas} Toppings={this.state.toppings} />
+                                <OrderReview Pizzas={this.state.order.pizzas} />
                                 <Map />
                             </div>
                         </div>

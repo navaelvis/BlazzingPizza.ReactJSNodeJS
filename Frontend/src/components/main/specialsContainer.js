@@ -1,6 +1,5 @@
 import React from 'react';
 import Axios from 'axios';
-import '../../css/site.css';
 
 class SpecialsContainer extends React.Component {
     constructor() {
@@ -15,8 +14,22 @@ class SpecialsContainer extends React.Component {
     componentDidMount() {
         Axios.get('http://localhost:1337/specials')
         .then((response) => {
+            var specials = [];
+
+            response.data.map((special) => {
+                specials.push({
+                    "id": special.id,
+                    "name": special.name,
+                    "basePrice": parseFloat(special.basePrice),
+                    "description": special.description,
+                    "imageUrl": special.imageUrl
+                });
+
+                return null;
+            })
+
             this.setState({
-                specials: response.data.sort((a, b) => {
+                specials: specials.sort((a, b) => {
                     if (a.basePrice > b.basePrice)
                         return -1;
                     else if (a.basePrice < b.basePrice)
