@@ -9,7 +9,7 @@
     "knex": "^0.20.13",
     "make-iterator": "^1.0.1",
     "map-cache": "^0.2.2",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "mixin-deep": "^1.3.2",
     "mkdirp": "^1.0.3",
     "mysql2": "^2.1.0"
