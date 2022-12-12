@@ -4,7 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "define-property": "^2.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fragment-cache": "^0.2.1",
     "knex": "^0.20.13",
     "make-iterator": "^1.0.1",
